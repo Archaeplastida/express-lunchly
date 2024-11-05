@@ -26,7 +26,7 @@ class Customer {
     this._phone = val || null;
   }
 
-  get phone () {
+  get phone() {
     return this._phone;
   }
 
