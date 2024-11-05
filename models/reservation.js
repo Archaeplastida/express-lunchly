@@ -46,6 +46,15 @@ class Reservation {
     return this._notes;
   }
 
+  set customerId(val) {
+    if (this._customerId && this._customerId !== val) throw new Error("Cannot change customer ID.");
+    this._customerId = val;
+  }
+
+  get customerId() {
+    return this._customerId;
+  }
+
   /** given a customer id, find their reservations. */
 
   static async getReservationsForCustomer(customerId) {
