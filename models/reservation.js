@@ -8,7 +8,7 @@ const db = require("../db");
 /** A reservation for a party */
 
 class Reservation {
-  constructor({id, customerId, numGuests, startAt, notes}) {
+  constructor({ id, customerId, numGuests, startAt, notes }) {
     this.id = id;
     this.customerId = customerId;
     this.numGuests = numGuests;
@@ -59,17 +59,33 @@ class Reservation {
 
   static async getReservationsForCustomer(customerId) {
     const results = await db.query(
-          `SELECT id, 
+      `SELECT id, 
            customer_id AS "customerId", 
            num_guests AS "numGuests", 
            start_at AS "startAt", 
            notes AS "notes"
          FROM reservations 
          WHERE customer_id = $1`,
-        [customerId]
+      [customerId]
     );
 
     return results.rows.map(row => new Reservation(row));
+  }
+
+  static async get(id) {
+    const result = await db.query(
+      `SELECT id, customer_id AS "customerId", num_guests AS "numGuests", start_at AS "startAt", notes FROM reservations WHERE id = $1`, [id]
+    );
+
+    let reservation = results.row[0];
+
+    if (reservation === undefined) {
+      const err = new Error(`No such reservation: ${id}`);
+      err.status = 404;
+      throw err;
+    }
+
+    return new Reservation(reservation);
   }
 }
 
