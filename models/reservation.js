@@ -16,9 +16,16 @@ class Reservation {
     this.notes = notes;
   }
 
-  /** formatter for startAt */
+  set startAt(val) {
+    if (val instanceof Date && !isNaN(val)) this._startAt = val;
+    else throw new Error("Not a valid startAt.");
+  }
 
-  getformattedStartAt() {
+  get startAt() {
+    return this._startAt;
+  }
+
+  get formattedStartAt() {
     return moment(this.startAt).format('MMMM Do YYYY, h:mm a');
   }
 
