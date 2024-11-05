@@ -14,6 +14,22 @@ class Customer {
     this.notes = notes;
   }
 
+  set notes(val) {
+    this._notes = val || "";
+  }
+
+  get notes() {
+    return this._notes;
+  }
+
+  set phone(val) {
+    this._phone = val || null;
+  }
+
+  get phone () {
+    return this._phone;
+  }
+
   /** find all customers. */
 
   static async all() {
